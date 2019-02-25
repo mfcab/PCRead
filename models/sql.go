@@ -25,8 +25,8 @@ func InitDB() (*gorm.DB, error) {
 	}
 	return nil, err
 }
-func GetRandBookList( s string) ([6]*BookInfo,error){
-	var bookList [6]*BookInfo
+func GetRandBookList( s string) ([]*BookInfo,error){
+	var bookList []*BookInfo
 	if s=="热门图书"{
 		err:=DB.Select("id,name,author,png").Order("rand()").Limit(6).Find(&bookList).Error
 		return bookList,err

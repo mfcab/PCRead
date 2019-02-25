@@ -49,7 +49,7 @@ func GetPage(c *gin.Context){
 func GetNextPage(c *gin.Context){
 	var reqInfo models.RequestPageJson
 	err:=c.BindJSON(&reqInfo)
-	if err!=nil&&reqInfo.BookName==""{
+	if err!=nil||reqInfo.BookName==""{
 		c.JSON(404,gin.H{})
 		return
 	}
@@ -71,7 +71,7 @@ func GetNextPage(c *gin.Context){
 func GetRandBookList(c *gin.Context){
 	var reqInfo models.RequestBookRandJson
 	err:=c.BindJSON(&reqInfo)
-	if err!=nil{
+	if err!=nil||reqInfo.BookType==""{
 		c.JSON(404,gin.H{})
 		return
 	}

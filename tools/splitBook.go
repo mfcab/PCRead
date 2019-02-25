@@ -14,7 +14,7 @@ func Init(){
 }
 func GetDirectory(name string) ([]string,error) {
 	a := []string{}
-	text, err := os.Open("tools/"+name)
+	text, err := os.Open("/root/Book/"+name)
 	if err != nil {
 		return a, err
 	}

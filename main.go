@@ -6,6 +6,7 @@ import (
 	"./controllers"
 	"./tools"
 	"./models"
+	"fmt"
 )
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -25,7 +26,11 @@ func Cors() gin.HandlerFunc {
 }
 func main(){
 	tools.Init()
-	models.InitDB()
+	_,err:=models.InitDB()
+	if err!=nil{
+		fmt.Println(err)
+		return
+	}
 	r:=gin.Default()
 	r.Use(Cors())
 	v1:=r.Group("v1")

@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"../models"
 	"../tools"
+	"fmt"
 )
 
 func GetDirectory(c *gin.Context){
@@ -31,6 +32,7 @@ func GetPage(c *gin.Context){
 	var reqInfo models.RequestPageJson
 	err:=c.BindJSON(&reqInfo)
 	if err!=nil{
+		fmt.Println(err)
 		c.JSON(404,gin.H{})
 		return
 	}

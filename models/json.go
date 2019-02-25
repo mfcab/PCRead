@@ -1,11 +1,11 @@
 package models
 type RequestDirJson struct{
-	BookName string `json:"BookName"`
+	BookName string `json:"BookName,omitempy"`
 }
 type RequestPageJson struct{
-	BookName string `json:"BookName"`
-	ChapterName string `json:"ChapterName"`
+	BookName string `json:"BookName,omitempy"`
+	ChapterName string `json:"ChapterName,omitempy"`
 }
 type RequestBookRandJson struct{
-	BookType string `json:"BookType"`
+	BookType string `json:"BookType,omitempy"`
 }

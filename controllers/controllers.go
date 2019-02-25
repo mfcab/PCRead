@@ -75,6 +75,7 @@ func GetRandBookList(c *gin.Context){
 		c.JSON(404,gin.H{})
 		return
 	}
+	fmt.Println(reqInfo.BookType)
 	a,err:=models.GetRandBookList(reqInfo.BookType)
 	if err!=nil{
 		c.JSON(404,gin.H{})

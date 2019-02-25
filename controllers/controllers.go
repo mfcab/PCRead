@@ -31,7 +31,6 @@ func GetDirectory(c *gin.Context){
 func GetPage(c *gin.Context){
 	var reqInfo models.RequestPageJson
 	err:=c.BindJSON(&reqInfo)
-	fmt.Println(reqInfo)
 	if err!=nil{
 		fmt.Println(err)
 		c.JSON(404,gin.H{})
@@ -39,7 +38,6 @@ func GetPage(c *gin.Context){
 	}
 	a,err:=tools.GetPage(reqInfo.BookName,reqInfo.ChapterName)
 	if err!=nil{
-		fmt.Println(err)
 		c.JSON(404,gin.H{})
 		return
 	}
@@ -51,7 +49,7 @@ func GetPage(c *gin.Context){
 func GetNextPage(c *gin.Context){
 	var reqInfo models.RequestPageJson
 	err:=c.BindJSON(&reqInfo)
-	if err!=nil{
+	if err!=nil&&reqInfo.BookName==""{
 		c.JSON(404,gin.H{})
 		return
 	}

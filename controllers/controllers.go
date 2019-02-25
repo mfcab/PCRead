@@ -13,6 +13,10 @@ func GetDirectory(c *gin.Context){
 		c.JSON(404,gin.H{})
 		return
 	}
+	if reqInfo.BookName==""{
+		c.JSON(404,gin.H{})
+		return
+	}
 	a,err:=tools.GetDirectory(reqInfo.BookName)
 	if err!=nil{
 		c.JSON(404,gin.H{})

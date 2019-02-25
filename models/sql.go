@@ -16,7 +16,7 @@ type BookInfo struct{
 }
 var DB *gorm.DB
 func InitDB() (*gorm.DB, error) {
-	db, err := gorm.Open("mysql", "readuser:p@s#0fPCR@/Blog?charset=utf8&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", "readuser:p@s#0fPCR@/PCRead?charset=utf8&parseTime=True&loc=Local")
 	if err == nil {
 		db.LogMode(true)
 		db.SingularTable(true)

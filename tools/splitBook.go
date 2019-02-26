@@ -45,7 +45,7 @@ func GetPage(name string,chapter string) (string,error){
 		tag=true
 	}
 	reg2:=regexp.MustCompile("^"+chapter)
-	text, err := os.Open("tools/"+name)
+	text, err := os.Open("/root/Book/"+name)
 	if err != nil {
 		return page, err
 	}
@@ -88,7 +88,7 @@ func GetNextPage(name string,chapter string) (string,string,error){
 	if name==""{
 		return page,nextChapter, errors.New("XXX")
 	}
-	text, err := os.Open("tools/"+name)
+	text, err := os.Open("/root/Book/"+name)
 	if err != nil {
 		return page,nextChapter, err
 	}

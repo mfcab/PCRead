@@ -12,6 +12,11 @@ import (
 )
 
 func GetDirectory(c *gin.Context){
+	claims := c.MustGet("claims").(*auth.CustomClaims)
+	if claims == nil {
+		c.JSON(404,gin.H{})
+		return
+	}
 	var reqInfo models.RequestDirJson
 	err:=c.BindJSON(&reqInfo)
 	if err!=nil{

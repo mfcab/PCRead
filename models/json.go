@@ -1,15 +1,17 @@
 package models
 type RequestDirJson struct{
-	BookName string `json:"BookName,omitempy"`
+	BookName string `json:"BookName, omitempty"`
+	Token string `json:"Token,omitempty"`
 }
 type RequestPageJson struct{
-	BookName string `json:"BookName,omitempy"`
-	ChapterName string `json:"ChapterName,omitempy"`
+	BookName string `json:"BookName,omitempty"`
+	ChapterName string `json:"ChapterName,omitempty"`
+	Token string `json:"Token,omitempty"`
 }
 type RequestBookRandJson struct{
-	BookType string `json:"BookType,omitempy"`
+	BookType string `json:"BookType,omitempty"`
 }
 type LoginJson struct{
-	Phone string `json:"Phone,omitempy"`
-	Pwd   string `json:"Pwd,omitempy"`
+	Phone string `json:"Phone,omitempty"`
+	Pwd   string `json:"Pwd,omitempty"`
 }

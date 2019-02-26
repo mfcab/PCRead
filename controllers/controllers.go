@@ -14,22 +14,22 @@ import (
 func GetDirectory(c *gin.Context){
 	claims := c.MustGet("claims").(*auth.CustomClaims)
 	if claims == nil {
-		c.JSON(404,gin.H{})
+		c.JSON(404,gin.H{"status":"-1","msg":"token错误"})
 		return
 	}
 	var reqInfo models.RequestDirJson
 	err:=c.BindJSON(&reqInfo)
 	if err!=nil{
-		c.JSON(404,gin.H{})
+		c.JSON(404,gin.H{"status":"-1","msg":"解析错误"})
 		return
 	}
 	if reqInfo.BookName==""{
-		c.JSON(404,gin.H{})
+		c.JSON(404,gin.H{"status":"-1","msg":"信息有误"})
 		return
 	}
 	a,err:=tools.GetDirectory(reqInfo.BookName)
 	if err!=nil{
-		c.JSON(404,gin.H{})
+		c.JSON(404,gin.H{"status":"-1","msg":"信息有误。"})
 		return
 	}
 	c.JSON(200, gin.H{

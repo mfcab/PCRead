@@ -45,6 +45,9 @@ func main(){
 	v2.POST("/getDirectory", controllers.GetDirectory)
 	v2.POST("/getPage",controllers.GetPage)
 	v2.POST("/getNextPage",controllers.GetNextPage)
+	v2.POST("/addBook",controllers.AddBook)
+	v2.POST("/delBook",controllers.DelBook)
+	v2.POST("/getSelfBook",controllers.GetSelfBook)
 	r.Run()
 
 }

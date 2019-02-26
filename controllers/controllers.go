@@ -61,6 +61,11 @@ func GetPage(c *gin.Context){
 	return
 }
 func GetNextPage(c *gin.Context){
+	claims := c.MustGet("claims").(*auth.CustomClaims)
+	if claims == nil {
+		c.JSON(404,gin.H{"status":"-1","msg":"token错误"})
+		return
+	}
 	var reqInfo models.RequestPageJson
 	err:=c.BindJSON(&reqInfo)
 	if err!=nil||reqInfo.BookName==""{
@@ -78,10 +83,23 @@ func GetNextPage(c *gin.Context){
 	})
 	return
 }
-/*func GetSelfBook(c *gin.Context){
-	a:=c.MustGet("claims")
-	a.name,redis>selfbook>returnjson({book.id,title,png,}{}{})
-}*/
+func GetSelfBook(c *gin.Context){
+	claims := c.MustGet("claims").(*auth.CustomClaims)
+	if claims == nil||claims.Phone=="" {
+		c.JSON(404,gin.H{"status":"-1","msg":"token错误"})
+		return
+	}
+	list,err:=models.GetSelfBook(claims.Phone)
+	if err!=nil {
+		c.JSON(404, gin.H{"status": "-1", "msg": "查询错误"})
+		return
+	}
+	c.JSON(200, gin.H{
+		"bookList": list,
+	})
+	return
+
+}
 func GetRandBookList(c *gin.Context){
 	var reqInfo models.RequestBookRandJson
 	err:=c.BindJSON(&reqInfo)
@@ -116,10 +134,6 @@ func GetBookList(c *gin.Context){
 	})
 	return
 }
-/*func GetSelfBook(c *gin.Context){
-	a:=c.MustGet("claims")
-
-}*/
 func Register(c *gin.Context){
 	var reqInfo models.LoginJson
 	err:=c.BindJSON(&reqInfo)
@@ -182,5 +196,45 @@ func Login(c *gin.Context){
 		"status" :"0",
 		"token" : token,
 	})
+	return
+}
+func AddBook(c *gin.Context){
+	claims := c.MustGet("claims").(*auth.CustomClaims)
+	if claims == nil||claims.Phone=="" {
+		c.JSON(404,gin.H{"status":"-1","msg":"token错误"})
+		return
+	}
+	var reqInfo models.RequestDirJson
+	err:=c.BindJSON(&reqInfo)
+	if err!=nil||reqInfo.BookName==""{
+		c.JSON(404,gin.H{"status":"-1","msg":"解析错误"})
+		return
+	}
+	err=models.AddBook(reqInfo.BookName,claims.Phone)
+	if err!=nil{
+		c.JSON(404,gin.H{"status":"-1","msg":"添加错误"})
+		return
+	}
+	c.JSON(200,gin.H{"status":"0","msg":"添加成功"})
+	return
+}
+func DelBook(c *gin.Context){
+	claims := c.MustGet("claims").(*auth.CustomClaims)
+	if claims == nil||claims.Phone=="" {
+		c.JSON(404,gin.H{"status":"-1","msg":"token错误"})
+		return
+	}
+	var reqInfo models.RequestDirJson
+	err:=c.BindJSON(&reqInfo)
+	if err!=nil||reqInfo.BookName==""{
+		c.JSON(404,gin.H{"status":"-1","msg":"解析错误"})
+		return
+	}
+	err=models.DeleteBook(reqInfo.BookName,claims.Phone)
+	if err!=nil{
+		c.JSON(404,gin.H{"status":"-1","msg":"删除错误"})
+		return
+	}
+	c.JSON(200,gin.H{"status":"0","msg":"删除成功"})
 	return
 }

@@ -57,9 +57,16 @@ func GetBookList(s string) ([]*BookInfo,error){
 	err:=DB.Select("id,name,author,png").Where("type=?",s).Limit(100).Find(&bookList).Error
 	return bookList,err
 }
-func GetSelfBook(list []string)([]*BookInfo,error){
+func GetSelfBook(phone string)([]*BookInfo,error){
 	var bookList []*BookInfo
+	list,err:=Clint.SMembers(phone).Result()
+	if err!=nil{
+		return nil,err
+	}
 	for _,name:=range list{
+			if name==""{
+				continue
+			}
 			var book BookInfo
 			err:=DB.Select("id,name,png").Where("name=?",name).Find(&book).Error
 			if err!=nil{
@@ -81,7 +88,7 @@ func RegisterCheck(phone string, pwd string) error{
 	if pwd!=code{
 		return errors.New("验证码错误")
 	}
-	err=Clint.Set(phone,"",0).Err()
+	err=Clint.SAdd(phone,"").Err()
 	if err!=nil{
 		return err
 	}
@@ -105,4 +112,30 @@ func GetCheckCode(phone string) (string,error){
 	code:=phone
 	code="123456"
 	return code,nil
+}
+func AddBook(book string,phone string)  error{
+	a,err:=Clint.Exists(phone).Result()
+	if err!=nil||a!=1{
+		return errors.New("Wrong")
+	}
+	err=Clint.SAdd(phone,book).Err()
+	if err!=nil{
+		return err
+	}
+	return nil
+}
+func DeleteBook(book string,phone string) error{
+	a,err:=Clint.Exists(phone).Result()
+	if err!=nil||a!=1{
+		return errors.New("Wrong")
+	}
+	isMember, err := Clint.SIsMember(phone, book).Result()
+	if err!=nil||!isMember{
+		return errors.New("Wrong")
+	}
+	err=Clint.SRem(phone,book).Err()
+	if err!=nil{
+		return err
+	}
+	return nil
 }

@@ -95,7 +95,7 @@ func LoginCheck(phone string, pwd string) error{
 	err2:=a.Err()
 	if err2!=nil{
 		fmt.Println(2)
-		return err
+		return err2
 	}
 	code,_:=GetCheckCode(phone)
 	if pwd!=code{

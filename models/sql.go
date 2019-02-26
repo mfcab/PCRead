@@ -88,13 +88,16 @@ func RegisterCheck(phone string, pwd string) error{
 return nil
 }
 func LoginCheck(phone string, pwd string) error{
-	fmt.Println(2)
-	err:=Clint.Exists(phone).Err()
-	if err!=nil{
-		fmt.Println(1)
+
+	a:=Clint.Exists(phone)
+	err1:=a.String()
+	fmt.Println(err1)
+	err2:=a.Err()
+	if err2!=nil{
+		fmt.Println(2)
 		return err
 	}
-	code,err:=GetCheckCode(phone)
+	code,_:=GetCheckCode(phone)
 	if pwd!=code{
 		return errors.New("验证码错误")
 	}

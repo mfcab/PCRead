@@ -5,6 +5,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/go-redis/redis"
 	"errors"
+	"fmt"
 )
 type BookInfo struct{
 	Id int
@@ -87,8 +88,10 @@ func RegisterCheck(phone string, pwd string) error{
 return nil
 }
 func LoginCheck(phone string, pwd string) error{
+	fmt.Println(2)
 	err:=Clint.Exists(phone).Err()
 	if err!=nil{
+		fmt.Println(1)
 		return err
 	}
 	code,err:=GetCheckCode(phone)

@@ -4,7 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/go-redis/redis"
-	"github.com/kataras/iris/core/errors"
+	"errors"
 )
 type BookInfo struct{
 	Id int

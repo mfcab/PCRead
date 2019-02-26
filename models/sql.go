@@ -37,6 +37,7 @@ func InitRedis()(*redis.Client,error){
 	if err!=nil{
 		return nil,err
 	}
+	Clint=client
 	return client,err
 }
 func GetRandBookList( s string) ([]*BookInfo,error){

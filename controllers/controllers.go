@@ -5,6 +5,10 @@ import (
 	"../models"
 	"../tools"
 	"fmt"
+	"time"
+	"net/http"
+	"../auth"
+	jwtgo "github.com/dgrijalva/jwt-go"
 )
 
 func GetDirectory(c *gin.Context){
@@ -123,7 +127,7 @@ func Register(c *gin.Context){
 		return
 	}
 	c.JSON(200,gin.H{
-		"status" :"1",
+		"status" :"0",
 	})
 	return
 
@@ -137,17 +141,35 @@ func Login(c *gin.Context){
 		})
 		return
 	}
-	token,err:=models.LoginCheck(reqInfo.Phone,reqInfo.Pwd)
+	err=models.LoginCheck(reqInfo.Phone,reqInfo.Pwd)
 	if err!=nil{
 		c.JSON(200,gin.H{
 			"status" :"-1",
 		})
 		return
 	}
+	j := auth.NewJWT()
+	claims := auth.CustomClaims{
+		reqInfo.Phone,
+		jwtgo.StandardClaims{
+			NotBefore: int64(time.Now().Unix() - 1000), // 签名生效时间
+			ExpiresAt: int64(time.Now().Unix() + 360000), // 过期时间 一小时
+			Issuer:    "newtrekWang",                   //签名的发行者
+		},
+	}
+
+	token, err := j.CreateToken(claims)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"status": -1,
+			"msg":    err.Error(),
+		})
+		return
+	}
 	c.JSON(200,gin.H{
-		"status" :"1",
+		"status" :"0",
 		"token" : token,
 	})
 	return
-
 }

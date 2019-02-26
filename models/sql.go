@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/go-redis/redis"
+	"github.com/kataras/iris/core/errors"
 )
 type BookInfo struct{
 	Id int
@@ -72,8 +73,34 @@ func (book *BookInfo) GetBookInfo(s string) error{
 	return err
 }
 func RegisterCheck(phone string, pwd string) error{
+	code,err:=GetCheckCode(phone)
+	if err!=nil{
+		return err
+	}
+	if pwd!=code{
+		return errors.New("验证码错误")
+	}
+	err=Clint.Set(phone,"",0).Err()
+	if err!=nil{
+		return err
+	}
 return nil
 }
-func LoginCheck(phone string, pwd string) (string,error){
-	return "",nil
+func LoginCheck(phone string, pwd string) error{
+	err:=Clint.Exists(phone).Err()
+	if err!=nil{
+		return err
+	}
+	code,err:=GetCheckCode(phone)
+	if pwd!=code{
+		return errors.New("验证码错误")
+	}
+
+	return nil
+}
+func GetCheckCode(phone string) (string,error){
+	//短信网关
+	code:=phone
+	code="123456"
+	return code,nil
 }

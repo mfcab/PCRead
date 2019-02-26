@@ -9,3 +9,7 @@ type RequestPageJson struct{
 type RequestBookRandJson struct{
 	BookType string `json:"BookType,omitempy"`
 }
+type LoginJson struct{
+	Phone string `json:"Phone,omitempy"`
+	Pwd   string `json:"Pwd,omitempy"`
+}

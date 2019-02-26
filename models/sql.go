@@ -3,7 +3,8 @@ package models
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	)
+	"github.com/go-redis/redis"
+)
 type BookInfo struct{
 	Id int
 	Name string
@@ -15,6 +16,7 @@ type BookInfo struct{
 	Dn int
 }
 var DB *gorm.DB
+var Clint *redis.Client
 func InitDB() (*gorm.DB, error) {
 	db, err := gorm.Open("mysql", "readuser:p@s#0fPCR@/PCRead?charset=utf8&parseTime=True&loc=Local")
 	if err == nil {
@@ -24,6 +26,16 @@ func InitDB() (*gorm.DB, error) {
 		return db, err
 	}
 	return nil, err
+}
+func InitRedis()(*redis.Client,error){
+	client := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+	})
+	_, err := client.Ping().Result()
+	if err!=nil{
+		return nil,err
+	}
+	return client,err
 }
 func GetRandBookList( s string) ([]*BookInfo,error){
 	var bookList []*BookInfo
@@ -58,4 +70,10 @@ func GetSelfBook(list []string)([]*BookInfo,error){
 func (book *BookInfo) GetBookInfo(s string) error{
 	err:=DB.Select("id,name,author,info,type,png,dn").Where("name=?",s).Find(book).Error
 	return err
+}
+func RegisterCheck(phone string, pwd string) error{
+return nil
+}
+func LoginCheck(phone string, pwd string) (string,error){
+	return "",nil
 }

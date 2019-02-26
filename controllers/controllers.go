@@ -75,7 +75,6 @@ func GetRandBookList(c *gin.Context){
 		c.JSON(404,gin.H{})
 		return
 	}
-	fmt.Println(reqInfo.BookType)
 	a,err:=models.GetRandBookList(reqInfo.BookType)
 	if err!=nil{
 		c.JSON(404,gin.H{})
@@ -89,7 +88,7 @@ func GetRandBookList(c *gin.Context){
 func GetBookList(c *gin.Context){
 	var reqInfo models.RequestBookRandJson
 	err:=c.BindJSON(&reqInfo)
-	if err!=nil{
+	if err!=nil||reqInfo.BookType==""{
 		c.JSON(404,gin.H{})
 		return
 	}
@@ -107,3 +106,48 @@ func GetBookList(c *gin.Context){
 	a:=c.MustGet("claims")
 
 }*/
+func Register(c *gin.Context){
+	var reqInfo models.LoginJson
+	err:=c.BindJSON(&reqInfo)
+	if err!=nil||reqInfo.Phone==""{
+		c.JSON(200,gin.H{
+			"status" :"-1",
+		})
+		return
+	}
+	err=models.RegisterCheck(reqInfo.Phone,reqInfo.Pwd)
+	if err!=nil{
+		c.JSON(200,gin.H{
+			"status" :"-1",
+		})
+		return
+	}
+	c.JSON(200,gin.H{
+		"status" :"1",
+	})
+	return
+
+}
+func Login(c *gin.Context){
+	var reqInfo models.LoginJson
+	err:=c.BindJSON(&reqInfo)
+	if err!=nil||reqInfo.Phone==""{
+		c.JSON(200,gin.H{
+			"status" :"-1",
+		})
+		return
+	}
+	token,err:=models.LoginCheck(reqInfo.Phone,reqInfo.Pwd)
+	if err!=nil{
+		c.JSON(200,gin.H{
+			"status" :"-1",
+		})
+		return
+	}
+	c.JSON(200,gin.H{
+		"status" :"1",
+		"token" : token,
+	})
+	return
+
+}

@@ -7,6 +7,7 @@ import (
 	"./tools"
 	"./models"
 	"fmt"
+	"./auth"
 )
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -26,18 +27,21 @@ func Cors() gin.HandlerFunc {
 }
 func main(){
 	tools.Init()
-	_,err:=models.InitDB()
-	if err!=nil{
-		fmt.Println(err)
+	_,err1:=models.InitDB()
+	_,err2:=models.InitRedis()
+	if err1!=nil||err2!=nil{
+		fmt.Println(err1,err2)
 		return
 	}
 	r:=gin.Default()
 	r.Use(Cors())
 	v1:=r.Group("v1")
 	v1.POST("/getRandBookList",controllers.GetRandBookList)
-	v1.POST("getBookList",controllers.GetBookList)
+	v1.POST("/getBookList",controllers.GetBookList)
+	v1.POST("/register",)
+	v1.POST("/login",controllers.Login)
 	v2:=r.Group("v2")
-	v1.GET("/hello")
+	v2.Use(auth.JWTAuth())
 	v2.POST("/getDirectory", controllers.GetDirectory)
 	v2.POST("/getPage",controllers.GetPage)
 	v2.POST("/getNextPage",controllers.GetNextPage)

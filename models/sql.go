@@ -93,6 +93,8 @@ func LoginCheck(phone string, pwd string) error{
 	a:=Clint.Exists(phone)
 	err1:=a.String()
 	fmt.Println("this,is a",err1)
+	b,err:=a.Result()
+	fmt.Println(a.Err(),a.Name(),a.Val(),a.Args(),b,err)
 	err2:=a.Err()
 	fmt.Println(err2)
 	if err2!=nil{

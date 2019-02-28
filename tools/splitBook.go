@@ -10,7 +10,7 @@ import (
 )
 var Reg *regexp.Regexp
 func Init(){
-	Reg=regexp.MustCompile(`^第.{1,5}章.{1,16}`)
+	Reg=regexp.MustCompile(`^第.{1,5}[章回].{1,16}`)
 }
 func GetDirectory(name string) ([]string,error) {
 	a := []string{}
@@ -23,7 +23,6 @@ func GetDirectory(name string) ([]string,error) {
 	for {
 		s, _, err := r.ReadLine()
 		if err != nil && err == io.EOF {
-			fmt.Printf("%s+%s",a[0],a[1])
 			return a, nil
 		}
 		str:=string(s)

@@ -138,8 +138,9 @@ func Register(c *gin.Context){
 	var reqInfo models.LoginJson
 	err:=c.BindJSON(&reqInfo)
 	if err!=nil||reqInfo.Phone==""{
-		c.JSON(404,gin.H{
+		c.JSON(200,gin.H{
 			"status" :"-1",
+			"err":"请求有问题",
 		})
 		return
 	}

@@ -38,6 +38,7 @@ func main(){
 	v1:=r.Group("v1")
 	v1.POST("/getRandBookList",controllers.GetRandBookList)
 	v1.POST("/getBookList",controllers.GetBookList)
+	v1.POST("/getBookInfo",controllers.GetBookInfo)
 	v1.POST("/register",controllers.Register)
 	v1.POST("/login",controllers.Login)
 	v2:=r.Group("v2")

@@ -135,6 +135,17 @@ func GetBookList(c *gin.Context){
 	})
 	return
 }
+func GetBookInfo(c *gin.Context){
+	var reqInfo models.RequestPageJson
+	err:=c.BindJSON(&reqInfo)
+	if err!=nil||reqInfo.BookName==""{
+		fmt.Println(err)
+		c.JSON(404,gin.H{"status":"-1","msg":"解析错误"})
+		return
+	}
+	var bookInfo models.BookInfo
+	bookInfo.GetBookInfo(reqInfo.BookName)
+}
 func Register(c *gin.Context){
 	var reqInfo models.LoginJson
 	err:=c.BindJSON(&reqInfo)

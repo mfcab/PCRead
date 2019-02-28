@@ -95,6 +95,7 @@ func GetSelfBook(c *gin.Context){
 		return
 	}
 	c.JSON(200, gin.H{
+		"user":claims.Phone,
 		"bookList": list,
 	})
 	return

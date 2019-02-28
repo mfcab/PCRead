@@ -51,10 +51,10 @@ func GetRandBookList( s string) ([]*BookInfo,error){
 func GetBookList(s string) ([]*BookInfo,error){
 	var bookList []*BookInfo
 	if s=="热门图书"{
-		err:=DB.Select("id,name,author,png").Limit(100).Find(&bookList).Error
+		err:=DB.Select("id,name,author").Limit(100).Find(&bookList).Error
 		return bookList,err
 	}
-	err:=DB.Select("id,name,author,png").Where("type=?",s).Limit(100).Find(&bookList).Error
+	err:=DB.Select("id,name,author").Where("type=?",s).Limit(100).Find(&bookList).Error
 	return bookList,err
 }
 func GetSelfBook(phone string)([]*BookInfo,error){

@@ -148,7 +148,7 @@ func Register(c *gin.Context){
 	if err!=nil{
 		c.JSON(200,gin.H{
 			"status" :"-1",
-			"err":err,
+			"err":err.Error(),
 		})
 		return
 	}

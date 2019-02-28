@@ -45,14 +45,12 @@ func GetPage(c *gin.Context){
 	}
 	var reqInfo models.RequestPageJson
 	err:=c.BindJSON(&reqInfo)
-	if err!=nil{
-		fmt.Println(err)
+	if err!=nil||reqInfo.BookName==""{
 		c.JSON(404,gin.H{"status":"-1","msg":"解析错误"})
 		return
 	}
 	a,err:=tools.GetPage(reqInfo.BookName,reqInfo.ChapterName)
 	if err!=nil{
-		fmt.Println(err)
 		c.JSON(404,gin.H{"status":"-1","msg":"信息有误"})
 		return
 	}

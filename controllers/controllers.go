@@ -144,7 +144,15 @@ func GetBookInfo(c *gin.Context){
 		return
 	}
 	var bookInfo models.BookInfo
-	bookInfo.GetBookInfo(reqInfo.BookName)
+	err=bookInfo.GetBookInfo(reqInfo.BookName)
+	if err!=nil{
+		c.JSON(404,gin.H{})
+		return
+	}
+	c.JSON(200, gin.H{
+		"book": bookInfo,
+	})
+	return
 }
 func Register(c *gin.Context){
 	var reqInfo models.LoginJson

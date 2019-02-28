@@ -52,6 +52,7 @@ func GetPage(c *gin.Context){
 	}
 	a,err:=tools.GetPage(reqInfo.BookName,reqInfo.ChapterName)
 	if err!=nil{
+		fmt.Println(err)
 		c.JSON(404,gin.H{"status":"-1","msg":"信息有误"})
 		return
 	}

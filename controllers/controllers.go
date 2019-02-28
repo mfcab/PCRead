@@ -138,7 +138,7 @@ func Register(c *gin.Context){
 	var reqInfo models.LoginJson
 	err:=c.BindJSON(&reqInfo)
 	if err!=nil||reqInfo.Phone==""{
-		c.JSON(200,gin.H{
+		c.JSON(404,gin.H{
 			"status" :"-1",
 		})
 		return
@@ -147,6 +147,7 @@ func Register(c *gin.Context){
 	if err!=nil{
 		c.JSON(200,gin.H{
 			"status" :"-1",
+			"err":err,
 		})
 		return
 	}
@@ -179,7 +180,7 @@ func Login(c *gin.Context){
 		jwtgo.StandardClaims{
 			NotBefore: int64(time.Now().Unix() - 1000), // 签名生效时间
 			ExpiresAt: int64(time.Now().Unix() + 360000), // 过期时间 一小时
-			Issuer:    "newtrekWang",                   //签名的发行者
+			Issuer:    "GPC",                   //签名的发行者
 		},
 	}
 

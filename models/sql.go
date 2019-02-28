@@ -81,6 +81,10 @@ func (book *BookInfo) GetBookInfo(s string) error{
 	return err
 }
 func RegisterCheck(phone string, pwd string) error{
+	a,err:=Clint.Exists(phone).Result()
+	if err!=nil||a!=0{
+		return errors.New("请直接登陆")
+	}
 	code,err:=GetCheckCode(phone)
 	if err!=nil{
 		return err

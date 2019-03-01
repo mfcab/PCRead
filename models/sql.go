@@ -5,6 +5,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/go-redis/redis"
 	"errors"
+	"fmt"
 )
 type BookInfo struct{
 	Id int
@@ -142,4 +143,13 @@ func DeleteBook(book string,phone string) error{
 		return err
 	}
 	return nil
+}
+func SearchBook(name string) ([]*BookInfo,error){
+	var bookList []*BookInfo
+	name2:=fmt.Sprintf("%%%s%%",name)
+	err:=DB.Select("id","name").Where("name LIKE ?", name2).Find(bookList).Error
+	if err!=nil{
+		return nil,err
+	}
+	return bookList,nil
 }

@@ -259,3 +259,18 @@ func DelBook(c *gin.Context){
 	c.JSON(200,gin.H{"status":"0","msg":"删除成功"})
 	return
 }
+func Search(c *gin.Context){
+	var reqInfo models.RequestDirJson
+	err:=c.BindJSON(&reqInfo)
+	if err!=nil||reqInfo.BookName==""{
+		c.JSON(404,gin.H{"status":"-1","msg":"解析错误"})
+		return
+	}
+	a,err:=models.SearchBook(reqInfo.BookName)
+	if err!=nil{
+		c.JSON(404,gin.H{"status":"-1","msg":"删除错误"})
+		return
+	}
+	c.JSON(200,gin.H{"BookList":a})
+	return
+}

@@ -41,6 +41,7 @@ func main(){
 	v1.POST("/getBookInfo",controllers.GetBookInfo)
 	v1.POST("/register",controllers.Register)
 	v1.POST("/login",controllers.Login)
+	v1.POST("/search",controllers.Search)
 	v2:=r.Group("v2")
 	v2.Use(auth.JWTAuth())
 	v2.POST("/getDirectory", controllers.GetDirectory)

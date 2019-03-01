@@ -148,7 +148,7 @@ func SearchBook(name string) ([]*BookInfo,error){
 	var bookList []*BookInfo
 	name2:=fmt.Sprintf("%%%s%%",name)
 	fmt.Println(name2)
-	err:=DB.Select("id","name").Where("name LIKE ?", name2).Find(bookList).Error
+	err:=DB.Select("id,name").Where("name LIKE ?", name2).Find(bookList).Error
 	if err!=nil{
 		return nil,err
 	}

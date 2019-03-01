@@ -60,6 +60,10 @@ func GetBookList(s string) ([]*BookInfo,error){
 }
 func GetSelfBook(phone string)([]*BookInfo,error){
 	var bookList []*BookInfo
+	a,err:=Clint.Exists(phone).Result()
+	if err!=nil||a!=1{
+		return nil,errors.New("Wrong")
+	}
 	list,err:=Clint.SMembers(phone).Result()
 	if err!=nil{
 		return nil,err

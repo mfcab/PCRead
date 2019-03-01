@@ -92,7 +92,7 @@ func RegisterCheck(phone string, pwd string) error{
 	if pwd!=code{
 		return errors.New("验证码错误")
 	}
-	err=Clint.SAdd(phone,"").Err()
+	err=Clint.SAdd(phone,"帝霸").Err()
 	if err!=nil{
 		return err
 	}

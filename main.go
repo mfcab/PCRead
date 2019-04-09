@@ -6,6 +6,7 @@ import (
 	"./controllers"
 	"./tools"
 	"./models"
+	_ "net/http/pprof"
 	"fmt"
 	"./auth"
 )
@@ -51,5 +52,4 @@ func main(){
 	v2.POST("/delBook",controllers.DelBook)
 	v2.POST("/getSelfBook",controllers.GetSelfBook)
 	r.Run()
-
 }
